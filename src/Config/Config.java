@@ -79,30 +79,26 @@ public class Config {
         }
     }
 
-    private void createReservationsTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS tbl_reservations ("
-                + "reservation_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "customer_id INTEGER NOT NULL,"
-                + "banca_id INTEGER NOT NULL,"
-                + "reservation_date TEXT NOT NULL,"
-                + "time_slot TEXT NOT NULL,"
-                + "pax_count INTEGER NOT NULL,"
-                + "status TEXT NOT NULL,"
-                + "FOREIGN KEY (customer_id) REFERENCES tbl_customers(customer_id),"
-                + "FOREIGN KEY (banca_id) REFERENCES tbl_bancas(banca_id)"
-                + ");";
-        try (Connection conn = connectDB();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
-            System.out.println("Table 'tbl_reservations' created or already exists.");
-            String sqlSequence = "INSERT OR IGNORE INTO sqlite_sequence (name, seq) VALUES ('tbl_reservations', 1000)";
-            try (PreparedStatement pstmt = conn.prepareStatement(sqlSequence)) {
-                pstmt.executeUpdate();
-            }
-        } catch (SQLException e) {
-            System.out.println("Error creating reservation table: " + e.getMessage());
-        }
+private void createReservationsTable() {
+    String sql = "CREATE TABLE IF NOT EXISTS tbl_reservations ("
+            + "reservation_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + "customer_id INTEGER NOT NULL,"
+            + "banca_id INTEGER NOT NULL,"
+            + "reservation_date TEXT NOT NULL,"
+            + "time_slot TEXT NOT NULL,"
+            + "pax_count INTEGER NOT NULL,"
+            + "status TEXT NOT NULL,"
+            + "FOREIGN KEY (customer_id) REFERENCES tbl_customers(customer_id),"
+            + "FOREIGN KEY (banca_id) REFERENCES tbl_bancas(banca_id)"
+            + ");";
+    try (Connection conn = connectDB();
+         Statement stmt = conn.createStatement()) {
+        stmt.execute(sql);
+        System.out.println("Table 'tbl_reservations' created or already exists.");
+    } catch (SQLException e) {
+        System.out.println("Error creating reservation table: " + e.getMessage());
     }
+}
 
     private void createAdminsTable() {
         String sql = "CREATE TABLE IF NOT EXISTS tbl_admins ("
@@ -124,7 +120,6 @@ public class Config {
         String sql = "INSERT OR IGNORE INTO tbl_admins (username, password) VALUES (?, ?)";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             if (conn.createStatement().executeQuery("SELECT COUNT(*) FROM tbl_admins").getInt(1) == 0) {
-                // Updated credentials
                 pstmt.setString(1, "jeffersonpones10");
                 pstmt.setString(2, "0912345");
                 pstmt.executeUpdate();

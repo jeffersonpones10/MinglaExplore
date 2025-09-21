@@ -14,7 +14,7 @@ public class Main {
         db.createTables();
 
         System.out.println("--- Welcome to MinglaExplore ---");
-        System.out.println("Your guide to Minglanilla's hidden gems and local delights! Get ready to discover the best spots for relaxation, adventure, and everything in between.");
+        System.out.println("-Your guide to Minglanilla's hidden gems and local delights! Get ready to discover the best spots for relaxation, adventure, and everything in between.-");
         System.out.println("**  Menu  **");
         System.out.println("1. Customer");
         System.out.println("2. Admin");
@@ -52,7 +52,7 @@ public class Main {
         System.out.print("Enter your email address: ");
         String email = sc.nextLine();
 
-        String sqlCustomer = "INSERT INTO tbl_customers (c_name, c_contact, c_email) VALUES (?, ?, ?)";
+        String sqlCustomer = "INSERT INTO tbl_customers (customer_name, contact_number, email_address) VALUES (?, ?, ?)";
         db.addRecord(sqlCustomer, name, contact, email);
         int customerId = getLastInsertedId("tbl_customers");
 
